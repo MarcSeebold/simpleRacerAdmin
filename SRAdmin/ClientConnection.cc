@@ -18,7 +18,7 @@ ClientConnection::~ClientConnection()
 void ClientConnection::connectTo(const QHostAddress &_addr, quint16 _port)
 {
    mSocket->connectToHost(_addr, _port);
-   mAdress = _addr.toString();
+   mAddress = _addr.toString();
    mConnectionTimeoutTimer.start(5000);
 }
 
@@ -30,7 +30,7 @@ void ClientConnection::sendCommand(NetworkCommand _cmd)
 
 QString ClientConnection::getAddress() const
 {
-   return mAdress;
+   return mAddress;
 }
 
 void ClientConnection::onConnected()
