@@ -1,7 +1,9 @@
-#ifndef MAINWINDOW_HH
-#define MAINWINDOW_HH
+#pragma once
 
 #include <QMainWindow>
+#include <vector>
+
+class ClientConnection;
 
 namespace Ui {
 class MainWindow;
@@ -16,7 +18,17 @@ public:
    ~MainWindow();
 
 private:
-   Ui::MainWindow *ui;
-};
+   void refreshClientList();
 
-#endif // MAINWINDOW_HH
+private slots:
+   void on_actionExit_triggered();
+   void on_actionConnect_to_triggered();
+
+   void onClientConnected();
+   void onClientDisconnected();
+   void onClientData(const QByteArray &_data);
+
+private:
+   Ui::MainWindow *ui;
+   std::vector<ClientConnection*> mClients;
+};
