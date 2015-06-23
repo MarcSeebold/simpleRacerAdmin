@@ -2,10 +2,12 @@
 
 #include <QMainWindow>
 #include <vector>
+#include "ClientConnectionManager.hh"
 
 class ClientConnection;
 
-namespace Ui {
+namespace Ui
+{
 class MainWindow;
 }
 
@@ -17,9 +19,6 @@ public:
    explicit MainWindow(QWidget *parent = 0);
    ~MainWindow();
 
-private:
-   void refreshClientList();
-
 private slots:
    void on_actionExit_triggered();
    void on_actionConnect_to_triggered();
@@ -28,7 +27,9 @@ private slots:
    void onClientDisconnected();
    void onClientData(const QByteArray &_data);
 
+   void onClientStateChanged(ClientState _newState);
+
 private:
    Ui::MainWindow *ui;
-   std::vector<ClientConnection*> mClients;
+   ClientConnectionManager mClientManager;
 };

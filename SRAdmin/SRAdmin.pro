@@ -15,9 +15,13 @@ CONFIG += c++11
 
 SOURCES += main.cc\
         MainWindow.cc \
-    ClientConnection.cc
+    ClientConnection.cc \
+    ClientConnectionManager.cc \
+    Common.cc
 
 HEADERS  += MainWindow.hh \
-    ClientConnection.hh
+    ClientConnection.hh \
+    ClientConnectionManager.hh \
+    Common.hh
 
 FORMS    += MainWindow.ui
