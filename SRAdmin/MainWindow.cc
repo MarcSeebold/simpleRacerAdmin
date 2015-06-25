@@ -8,6 +8,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 {
    ui->setupUi(this);
    ui->clients->setModel(&mClientManager);
+   ui->comboBox->addItems({"German", "English"});
 }
 
 MainWindow::~MainWindow()
@@ -187,5 +188,20 @@ void MainWindow::on_pushButton_6_clicked()
    for (const _ &c : mClientManager.getClients())
    {
       c->sendCommand(NetworkCommand::START_GAME);
+   }
+}
+
+void MainWindow::on_pushButton_7_clicked()
+{
+   // set survey language
+   const _ v = ui->comboBox->currentText();
+   for (const _ &c : mClientManager.getClients())
+   {
+      if (v == "German")
+         c->sendCommand(NetworkCommand::SET_SURVEY_LANG_GER);
+      else if (v == "English")
+         c->sendCommand(NetworkCommand::SET_SURVEY_LANG_ENG);
+      else
+         SR_ASSERT(0 && "unhandled case");
    }
 }
