@@ -21,4 +21,7 @@ public slots:
 
 private:
    std::vector<SharedClientConnection> mClients;
+
+public: // getter, setter
+   GETTER(Clients);
 };
