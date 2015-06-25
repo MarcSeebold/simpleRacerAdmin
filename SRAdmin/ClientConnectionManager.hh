@@ -16,6 +16,9 @@ public:
    QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
    int rowCount(const QModelIndex &parent = QModelIndex()) const override;
 
+public slots:
+   void onClientStateChanged();
+
 private:
    std::vector<SharedClientConnection> mClients;
 };

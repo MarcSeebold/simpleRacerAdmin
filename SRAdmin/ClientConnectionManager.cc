@@ -8,6 +8,7 @@ SharedClientConnection ClientConnectionManager::makeNew()
    _ c = std::make_shared<ClientConnection>(this);
    mClients.push_back(c);
    insertRow(rowCount());
+   connect(c.get(), &ClientConnection::stateChanged, this, &ClientConnectionManager::onClientStateChanged);
    return c;
 }
 
@@ -32,7 +33,10 @@ QVariant ClientConnectionManager::data(const QModelIndex &index, int role) const
       return QVariant();
 
    if (role == Qt::DisplayRole)
-      return mClients.at(index.row())->getAddress();
+   {
+      const _ c = mClients.at(index.row());
+      return c->getAddress() + ": " + c->getStateString();
+   }
    return QVariant();
 }
 
@@ -41,4 +45,9 @@ int ClientConnectionManager::rowCount(const QModelIndex &parent) const
    if (parent.isValid())
       return 0;
    return mClients.size()+1; // why the hell +1???
+}
+
+void ClientConnectionManager::onClientStateChanged()
+{
+   emit dataChanged(index(0), index(rowCount()));
 }

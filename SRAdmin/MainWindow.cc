@@ -39,7 +39,7 @@ void MainWindow::onClientConnected()
    _ client = dynamic_cast<ClientConnection *>(s);
    if (!client)
    {
-      assert(0 && "Error 0x02");
+      SR_ASSERT(0);
       return;
    }
    ui->console->addItem("Connected to " + client->getAddress());
@@ -51,7 +51,7 @@ void MainWindow::onClientDisconnected()
    _ client = dynamic_cast<ClientConnection *>(s);
    if (!client)
    {
-      assert(0 && "Error 0x03");
+      SR_ASSERT(0);
       return;
    }
    _ addr = client->getAddress();
@@ -67,7 +67,7 @@ void MainWindow::onClientData(const QByteArray &_data)
    _ client = dynamic_cast<ClientConnection *>(s);
    if (!client)
    {
-      assert(0 && "Error 0x01");
+      SR_ASSERT(0);
       return;
    }
    ui->console->addItem("Received from " + client->getAddress() + ": " + QString(_data));
@@ -79,7 +79,7 @@ void MainWindow::onClientStateChanged(ClientState _newState)
    _ client = dynamic_cast<ClientConnection *>(s);
    if (!client)
    {
-      assert(0 && "Error 0x03");
+      SR_ASSERT(0);
       return;
    }
    _ addr = client->getAddress();

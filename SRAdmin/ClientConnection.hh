@@ -44,6 +44,7 @@ enum class NetworkCommand : short
 enum class ClientState : short
 {
    INVALID,
+   UNKOWN,
    WAITING,
    TEST_PLAYING,
    PLAYING,
@@ -62,12 +63,13 @@ public:
 
    QString getAddress() const;
    ClientState getState() const { return mState; }
+   QString getStateString() const;
 
 public slots:
    void onConnected();
    void onDisconnected();
    void onReadyRead();
-   void onKeepAliveTimerTimeout();
+   void onGetClientStateTimerTimeout();
 
 signals:
    void connected();
@@ -78,7 +80,7 @@ signals:
 
 private:
    QTcpSocket *mSocket = nullptr;
-   QTimer mKeepAliveTimer;
+   QTimer mGetClientStateTimer;
    QTimer mConnectionTimeoutTimer;
    QString mAddress;
    ClientState mState = ClientState::INVALID;

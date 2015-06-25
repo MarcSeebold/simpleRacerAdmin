@@ -7,7 +7,7 @@ ClientConnection::ClientConnection(QObject *parent) : QObject(parent), mSocket(n
    connect(mSocket, &QTcpSocket::connected, this, &ClientConnection::onConnected);
    connect(mSocket, &QTcpSocket::disconnected, this, &ClientConnection::onDisconnected);
    connect(mSocket, &QTcpSocket::readyRead, this, &ClientConnection::onReadyRead);
-   connect(&mKeepAliveTimer, &QTimer::timeout, this, &ClientConnection::onKeepAliveTimerTimeout);
+   connect(&mGetClientStateTimer, &QTimer::timeout, this, &ClientConnection::onGetClientStateTimerTimeout);
    connect(&mConnectionTimeoutTimer, &QTimer::timeout, this, &ClientConnection::onDisconnected);
 }
 
@@ -36,17 +36,37 @@ QString ClientConnection::getAddress() const
    return mAddress;
 }
 
+QString ClientConnection::getStateString() const
+{
+   switch (getState())
+   {
+   case ClientState::INVALID:
+      return "INVALID";
+   case ClientState::PLAYING:
+      return "PLAYING";
+   case ClientState::SURVEY:
+      return "SURVEY";
+   case ClientState::TEST_PLAYING:
+      return "TEST_PLAYING";
+   case ClientState::WAITING:
+      return "WAITING";
+   case ClientState::UNKOWN:
+      return "UNKOWN";
+   }
+   SR_ASSERT(0 && "unhandled case");
+   return "UNHANDLED CASE";
+}
+
 void ClientConnection::onConnected()
 {
    mConnectionTimeoutTimer.stop();
-   mKeepAliveTimer.start(2000);
-   mState = ClientState::WAITING;
+   mGetClientStateTimer.start(2000);
    emit connected();
 }
 
 void ClientConnection::onDisconnected()
 {
-   mKeepAliveTimer.stop();
+   mGetClientStateTimer.stop();
    mState = ClientState::INVALID;
    emit disconnected();
 }
@@ -96,8 +116,8 @@ void ClientConnection::onReadyRead()
    emit received(std::move(data));
 }
 
-void ClientConnection::onKeepAliveTimerTimeout()
+void ClientConnection::onGetClientStateTimerTimeout()
 {
-   // send "NOP" to client as keep-alive
-   sendCommand(NetworkCommand::NOP);
+   // ask client for curent state
+   sendCommand(NetworkCommand::GET_STATE);
 }
