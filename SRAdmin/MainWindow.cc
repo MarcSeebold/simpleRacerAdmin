@@ -175,6 +175,18 @@ void MainWindow::on_pushButton_3_clicked()
       case 10:
          setConditionCmd = NetworkCommand::LOAD_CONDITION_10;
          break;
+      case 11:
+         setConditionCmd = NetworkCommand::LOAD_CONDITION_11;
+         break;
+      case 12:
+         setConditionCmd = NetworkCommand::LOAD_CONDITION_12;
+         break;
+      case 13:
+         setConditionCmd = NetworkCommand::LOAD_CONDITION_13;
+         break;
+      case 14:
+         setConditionCmd = NetworkCommand::LOAD_CONDITION_14;
+         break;
       default:
          SR_ASSERT(0 && "unhandled case");
          break;

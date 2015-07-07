@@ -6,7 +6,7 @@
 
 class QTcpSocket;
 
-enum class NetworkCommand : short
+enum class NetworkCommand : char
 {
    INVALID = 0,
 
@@ -29,6 +29,10 @@ enum class NetworkCommand : short
    LOAD_CONDITION_8,
    LOAD_CONDITION_9,
    LOAD_CONDITION_10,
+   LOAD_CONDITION_11,
+   LOAD_CONDITION_12,
+   LOAD_CONDITION_13,
+   LOAD_CONDITION_14,
 
    START_TESTPLAY,
    STOP_TESTPLAY,
