@@ -217,3 +217,12 @@ void MainWindow::on_pushButton_7_clicked()
          SR_ASSERT(0 && "unhandled case");
    }
 }
+
+void MainWindow::on_pushButton_8_clicked()
+{
+   // start game
+   for (const _ &c : mClientManager.getClients())
+   {
+      c->sendCommand(NetworkCommand::START_TRAINING);
+   }
+}

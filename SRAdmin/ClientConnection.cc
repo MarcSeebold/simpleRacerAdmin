@@ -81,6 +81,9 @@ void ClientConnection::onReadyRead()
       case NetworkCommand::START_GAME:
          mState = ClientState::PLAYING;
          break;
+      case NetworkCommand::START_TRAINING:
+         mState = ClientState::PLAYING;
+         break;
       // Intentional fall-through
       case NetworkCommand::OPEN_SURVEY_POSTGAME:
       case NetworkCommand::OPEN_SURVEY_PREGAME:
