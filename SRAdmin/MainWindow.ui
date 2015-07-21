@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>842</width>
-    <height>482</height>
+    <width>468</width>
+    <height>530</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -28,6 +28,13 @@
        <widget class="QWidget" name="verticalWidget" native="true">
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
+          <widget class="QPushButton" name="pushButton_9">
+           <property name="text">
+            <string>AutoConnect</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QPushButton" name="pushButton">
            <property name="enabled">
             <bool>false</bool>
@@ -38,16 +45,19 @@
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_8">
+          <widget class="QPushButton" name="pushButton_2">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
-            <string>Start Training</string>
+            <string>Start Pre-Study</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="pushButton_2">
+          <widget class="QPushButton" name="pushButton_8">
            <property name="text">
-            <string>Start Pre-Study</string>
+            <string>Start Training</string>
            </property>
           </widget>
          </item>
@@ -124,6 +134,9 @@
             </item>
             <item>
              <widget class="QPushButton" name="pushButton_7">
+              <property name="enabled">
+               <bool>true</bool>
+              </property>
               <property name="maximumSize">
                <size>
                 <width>50</width>
@@ -143,6 +156,9 @@
          </item>
          <item>
           <widget class="QPushButton" name="pushButton_4">
+           <property name="enabled">
+            <bool>true</bool>
+           </property>
            <property name="text">
             <string>Start In-Game Study</string>
            </property>
@@ -163,7 +179,10 @@
     <item>
      <widget class="QListWidget" name="console">
       <property name="alternatingRowColors">
-       <bool>false</bool>
+       <bool>true</bool>
+      </property>
+      <property name="wordWrap">
+       <bool>true</bool>
       </property>
      </widget>
     </item>
@@ -174,7 +193,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>842</width>
+     <width>468</width>
      <height>22</height>
     </rect>
    </property>

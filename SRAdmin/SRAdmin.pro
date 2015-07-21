@@ -17,11 +17,13 @@ SOURCES += main.cc\
         MainWindow.cc \
     ClientConnection.cc \
     ClientConnectionManager.cc \
-    Common.cc
+    Common.cc \
+    GameSearcher.cc
 
 HEADERS  += MainWindow.hh \
     ClientConnection.hh \
     ClientConnectionManager.hh \
-    Common.hh
+    Common.hh \
+    GameSearcher.hh
 
 FORMS    += MainWindow.ui

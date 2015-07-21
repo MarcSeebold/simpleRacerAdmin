@@ -3,6 +3,7 @@
 #include <cassert>
 #include <QInputDialog>
 #include "Common.hh"
+#include <QTime>
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow), mClientManager(this)
 {
@@ -16,6 +17,26 @@ MainWindow::~MainWindow()
    delete ui;
 }
 
+void MainWindow::connectToHost(const QHostAddress &_address)
+{
+   const _ c = mClientManager.getClients().size();
+   if (c != 0)
+      return; // only allow once connection
+   _ client = mClientManager.makeNew();
+   client->connectTo(_address, 13337);
+   writeToConsole("Connecting to " + _address.toString());
+   // connect signals/slots
+   connect(client.get(), &ClientConnection::connected, this, &MainWindow::onClientConnected);
+   connect(client.get(), &ClientConnection::disconnected, this, &MainWindow::onClientDisconnected);
+   connect(client.get(), &ClientConnection::received, this, &MainWindow::onClientData);
+}
+
+void MainWindow::writeToConsole(const QString &_msg)
+{
+   ui->console->addItem(QTime::currentTime().toString() + " " + _msg);
+   ui->console->scrollToBottom();
+}
+
 void MainWindow::on_actionExit_triggered()
 {
    qApp->exit();
@@ -25,13 +46,7 @@ void MainWindow::on_actionConnect_to_triggered()
 {
    // Get ip
    _ host = QInputDialog::getText(this, "Enter IP", "Enter IP/Hostname to connect to.");
-   _ client = mClientManager.makeNew();
-   client->connectTo(QHostAddress(host), 13337);
-   ui->console->addItem("Connecting to " + host);
-   // connect signals/slots
-   connect(client.get(), &ClientConnection::connected, this, &MainWindow::onClientConnected);
-   connect(client.get(), &ClientConnection::disconnected, this, &MainWindow::onClientDisconnected);
-   connect(client.get(), &ClientConnection::received, this, &MainWindow::onClientData);
+   connectToHost(QHostAddress(host));
 }
 
 void MainWindow::onClientConnected()
@@ -43,7 +58,7 @@ void MainWindow::onClientConnected()
       SR_ASSERT(0);
       return;
    }
-   ui->console->addItem("Connected to " + client->getAddress());
+   writeToConsole("Connected to " + client->getAddress());
 }
 
 void MainWindow::onClientDisconnected()
@@ -59,7 +74,7 @@ void MainWindow::onClientDisconnected()
    // remove from list
    mClientManager.remove(client);
    // console
-   ui->console->addItem("Disconnected from " + addr);
+   writeToConsole("Disconnected from " + addr);
 }
 
 void MainWindow::onClientData(const QByteArray &_data)
@@ -71,7 +86,7 @@ void MainWindow::onClientData(const QByteArray &_data)
       SR_ASSERT(0);
       return;
    }
-   ui->console->addItem("Received from " + client->getAddress() + ": " + QString(_data));
+   writeToConsole("Received from " + client->getAddress() + ": " + QString(_data));
 }
 
 void MainWindow::onClientStateChanged(ClientState _newState)
@@ -225,4 +240,15 @@ void MainWindow::on_pushButton_8_clicked()
    {
       c->sendCommand(NetworkCommand::START_TRAINING);
    }
+}
+
+void MainWindow::on_pushButton_9_clicked()
+{
+   connect(&mGS, &GameSearcher::foundGame, this, &MainWindow::onGameSearchSuccess);
+   mGS.searchGames("137.226.12.");
+}
+
+void MainWindow::onGameSearchSuccess(QHostAddress _address)
+{
+   connectToHost(_address);
 }

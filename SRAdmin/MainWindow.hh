@@ -3,6 +3,7 @@
 #include <QMainWindow>
 #include <vector>
 #include "ClientConnectionManager.hh"
+#include "GameSearcher.hh"
 
 class ClientConnection;
 
@@ -18,6 +19,11 @@ class MainWindow : public QMainWindow
 public:
    explicit MainWindow(QWidget *parent = 0);
    ~MainWindow();
+
+private:
+   void connectToHost(const QHostAddress &_address);
+
+   void writeToConsole(const QString &_msg);
 
 private slots:
    void on_actionExit_triggered();
@@ -37,7 +43,11 @@ private slots:
 
    void on_pushButton_8_clicked();
 
+   void on_pushButton_9_clicked();
+   void onGameSearchSuccess(QHostAddress _address);
+
 private:
    Ui::MainWindow *ui;
    ClientConnectionManager mClientManager;
+   GameSearcher mGS;
 };
